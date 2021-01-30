@@ -32,7 +32,7 @@ module.exports = {
   plugins: [
     uglifyJSPlugin,
   ],
-  entry: ['babel-polyfill', './src/main.ts'],
+  entry: ['babel-polyfill', './src/index.ts'],
   resolve:
     {
       extensions: ['.ts', '.js', '.json']
