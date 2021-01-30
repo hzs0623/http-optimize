@@ -1,0 +1,32 @@
+{
+  "name": "http-optimize",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --progress --color"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hzs0623/http-optimize.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hzs0623/http-optimize/issues"
+  },
+  "homepage": "https://github.com/hzs0623/http-optimize#readme",
+  "devDependencies": {
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "webpack": "^5.19.0",
+    "webpack-cli": "^4.4.0"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-merge": "^5.7.3"
+  }
+}
