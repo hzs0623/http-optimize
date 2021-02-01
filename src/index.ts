@@ -10,6 +10,7 @@ let cacheRequst: any;
  * @param {Object} options 打印控制台信息
  */
 export const getRequest = (request: any, options?: interFace.logOptions) => {
+  options = options ? options : {};
   getHttp = new http(request, options);  // 1.创建一个防止重复网络实例
   cacheRequst = new cacheHttp(options); // 本地缓存
 
