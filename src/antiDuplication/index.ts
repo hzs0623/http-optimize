@@ -3,39 +3,29 @@
  */
 import { getUrl } from '../utils';
 import * as interFace from '../utils/interface';
+import LogHttp from '../httpConfig/logHttp';
 
+let logInfo;  // 打印控制台
 export default class httpRequet {
   list: any; // 请求队列
   http: any;// 请求体
-  config: interFace.Config; // 请求参数
   options: interFace.logOptions; // log配置参数项
-  response: interFace.Response;
 
-  constructor() {
+  constructor(http: any, options?: interFace.logOptions) {
     this.list = new Set();
-    this.http = Object.create(null);  // 例如axios
-    this.config = Object.create(null);
-    this.options = Object.create(null);
-    this.response = {
-      config: this.config
-    }
-  }
-
-  /**
-   * 设置请求
-   * @param {Object} config  配置项
-   */
-  setRequest(http: any, options?: interFace.logOptions) {
     this.http = http;
-    this.options = options || {};
+    this.options = options || Object.create(null);
+
+    logInfo = new LogHttp(options);
   }
 
   /**
    * 获取请求
    * @param {Object} config  配置项
    */
-  getRequest(config: interFace.Config) {
-    this.config = config;
+  getRequest(config: interFace.Config): any {
+    logInfo.requestLogInfo(config); // 控制台打印
+
     const _that = this;
     return new Promise((resolve, reject) => {
       const currentUlr = getUrl(config); // 获取url地址
@@ -54,8 +44,9 @@ export default class httpRequet {
    * 响应回来后删除url地址
    * @param {Object} response 响应参数
    */
-  handleResponse(response: interFace.Response) {
-    this.response = response;
+  handleResponse(response: interFace.Response): void {
+    logInfo.responseLogInfo(response); // 控制台打印
+
     const { config } = response;
     const currentUlr = getUrl(config);
     this.list.has(currentUlr) && this.list.delete(currentUlr);
@@ -64,7 +55,7 @@ export default class httpRequet {
   /**
    * 清空所有请求队列
    */
-  clearList(error?) {
+  clearList(error?): void {
     this.list.clear();
   };
 }

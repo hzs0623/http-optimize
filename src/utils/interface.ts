@@ -14,8 +14,15 @@ export interface Response {
   data?: Object
 }
 
+// 配置参数
 export interface logOptions {
   log?: boolean,
   env?: string,
+  responseCache?: any,  // 本地缓存响应拦截函数
 }
 
+// 缓存时间
+export interface Time {
+  h?: number,
+  m?: number
+}

@@ -1,16 +1,17 @@
 import http from './antiDuplication/index';
 import cacheHttp from './cacheRequest/index';
 
-const getHttp = new http();
-const cacheRequst = new cacheHttp();
+let getHttp;
+let cacheRequst;
 
 /**
- * @param {Function} http 请求体
+ * @param {Function} request 请求体
  * @param {Object} options 打印控制台信息
  */
-export const getRequest = (http: any, options?) => {
-  // 1.创建一个防止重复网络实例
-  getHttp.setRequest(http, options);
+export const getRequest = (request: any, options?) => {
+  getHttp = new http(request, options);  // 1.创建一个防止重复网络实例
+  cacheRequst = new cacheHttp(options); // 本地缓存
+
   return function (config) {
     const cacheData = cacheRequst.getCacheData(config);
     if (cacheData) {

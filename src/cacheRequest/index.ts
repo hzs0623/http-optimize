@@ -2,28 +2,25 @@
  * 职责： 缓存请求数据
 */
 import * as interFace from '../utils/interface';
-
 import { getUrl, isObj, CACHEKEY } from '../utils';
 import { setItemLocalStorage, getItemLocalStorage } from '../utils/localStorage';
 
 export default class CacheRequet {
-  config: interFace.Config; // 请求参数
-  response: interFace.Response;
+  options: interFace.logOptions; // log配置参数项
 
-  constructor() {
-    this.response = Object.create(null);
-    this.config = Object.create(null);
+  constructor(options?: interFace.logOptions) {
+    this.options = options
   }
 
-  getTime(time) {
+  getTime(time: interFace.Time): number {
     const { h = 0, m = 0 } = time;
     const _t = h * 3600 * 1000 + m * 60 * 1000; // 所有时间戳
     return _t + Date.now();
   }
 
   // 获取过期时间
-  getExpirationTime() {
-    const { cache } = this.config;
+  getExpirationTime(config: interFace.Config): number {
+    const { cache } = config;
     if (isObj(cache)) {
       return this.getTime(cache);
     }
@@ -34,8 +31,8 @@ export default class CacheRequet {
     return Date.now(); // 存入当前时间
   }
 
-  setStorageData(data) {
-    const urlKey = getUrl(this.config); // 获取url地址作为每一个key
+  setStorageData(data: object, config: interFace.Config): void {
+    const urlKey = getUrl(config); // 获取url地址作为每一个key
     // 1.先取出所有的数据 然后在把当前的值塞入进去
     const mapData = getItemLocalStorage(CACHEKEY); // 本地所有数据
     if (!mapData) {
@@ -50,21 +47,38 @@ export default class CacheRequet {
   }
 
   // 保存数据到本地
-  setCacheData(response) {
-    const { data, config } = response;
+  setCacheData(response: interFace.Response): void {
+    const { data = {}, config } = response;
     const { cache } = config;
     if (!cache) return; // 不要开启缓存 直接返回
-    this.config = config;
-    this.response = response;
 
     this.setStorageData({
       data,
-      expirationTime: this.getExpirationTime() // 过期时间
-    })
+      expirationTime: this.getExpirationTime(config) // 过期时间
+    }, config)
   }
 
   // 获取本地缓存数据
-  getCacheData(config) {
-    return ''
+  getCacheData(config: interFace.Config): any {
+    const { responseCache } = this.options;
+
+    const { cache } = config;
+    if (!cache) return; // 不要开启缓存 直接返回
+    const localData = getItemLocalStorage(CACHEKEY); //1. 获取本地所有数据
+    if (!localData) return false; //2. 没有数据直接返回
+    const urlKey = getUrl(config); // 获取url地址作为每一个key
+    // 3.判断当前数据是否过期
+    const { data = {}, expirationTime = 0 } = localData[urlKey] || {};
+
+    if (expirationTime <= Date.now()) {
+      // 时间过期
+      return false;
+    }
+
+    if (typeof responseCache === 'function') {
+      return responseCache(data); // 拦截响应配置一些参数
+    }
+    // 4.时间没有过期，返回本地数据
+    return data
   }
 }

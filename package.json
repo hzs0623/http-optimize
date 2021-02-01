@@ -1,6 +1,6 @@
 {
   "name": "http-optimize",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/hzs0623/http-optimize.git"
   },
-  "author": "",
+  "author": "daes",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hzs0623/http-optimize/issues"

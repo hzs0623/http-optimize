@@ -4,7 +4,7 @@
 */
 
 // 存入localStorage
-export function setItemLocalStorage(key: string, data: any) {
+export function setItemLocalStorage(key: string, data: any): void {
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (e) {
@@ -18,7 +18,7 @@ export function setItemLocalStorage(key: string, data: any) {
 }
 
 // 获取localStorage
-export function getItemLocalStorage(key: string) {
+export function getItemLocalStorage(key: string): object {
   const res = localStorage.getItem(key);
   try {
     return JSON.parse(res);
@@ -28,11 +28,11 @@ export function getItemLocalStorage(key: string) {
 }
 
 // 删除localStorage
-export function removeItemStorage(key: string) {
+export function removeItemStorage(key: string): void {
   localStorage.removeItem(key);
 }
 
 // 清空所有localStorage
-export function clearLocalStorage() {
+export function clearLocalStorage(): void {
   localStorage.clear();
 }
