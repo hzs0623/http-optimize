@@ -13,7 +13,7 @@ export default class LogHttp {
   }
 
   isLog() {
-    const { env = 'development', log = true } = this.options
+    const { env = 'development', log = true } = this.options || {}
     if (env === 'production') return false; // 生产环境不打印
     return log && env !== 'production';
   }

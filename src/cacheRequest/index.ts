@@ -9,7 +9,7 @@ export default class CacheRequet {
   options: interFace.logOptions; // log配置参数项
 
   constructor(options?: interFace.logOptions) {
-    this.options = options
+    this.options = options || {}
   }
 
   getTime(time: interFace.Time): number {
@@ -22,7 +22,7 @@ export default class CacheRequet {
   getExpirationTime(config: interFace.Config): number {
     const { cache } = config;
     if (isObj(cache)) {
-      return this.getTime(cache);
+      return this.getTime(cache || {});
     }
     if (typeof cache === 'boolean') {
       // 默认开启五分钟
@@ -34,9 +34,9 @@ export default class CacheRequet {
   setStorageData(data: object, config: interFace.Config): void {
     const urlKey = getUrl(config); // 获取url地址作为每一个key
     // 1.先取出所有的数据 然后在把当前的值塞入进去
-    const mapData = getItemLocalStorage(CACHEKEY); // 本地所有数据
+    const mapData: object = getItemLocalStorage(CACHEKEY); // 本地所有数据
     if (!mapData) {
-      const params = {};
+      const params = Object.create(null);
       params[urlKey] = data;
       setItemLocalStorage(CACHEKEY, params); // 存入本地
       return;
@@ -64,7 +64,7 @@ export default class CacheRequet {
 
     const { cache } = config;
     if (!cache) return; // 不要开启缓存 直接返回
-    const localData = getItemLocalStorage(CACHEKEY); //1. 获取本地所有数据
+    const localData: object = getItemLocalStorage(CACHEKEY); //1. 获取本地所有数据
     if (!localData) return false; //2. 没有数据直接返回
     const urlKey = getUrl(config); // 获取url地址作为每一个key
     // 3.判断当前数据是否过期

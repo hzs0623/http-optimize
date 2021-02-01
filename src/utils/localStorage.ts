@@ -19,7 +19,7 @@ export function setItemLocalStorage(key: string, data: any): void {
 
 // 获取localStorage
 export function getItemLocalStorage(key: string): object {
-  const res = localStorage.getItem(key);
+  const res = localStorage.getItem(key) || '';
   try {
     return JSON.parse(res);
   } catch (e) {
