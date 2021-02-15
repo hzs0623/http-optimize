@@ -1,14 +1,18 @@
 {
   "name": "http-optimize",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "防止重复网络请求， 本地缓存",
-  "main": "./dist/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "keywords": [
     "typescript"
   ],
   "scripts": {
-    "dev": "tsc",
-    "build": "webpack"
+    "dev": "tsc"
   },
   "repository": {
     "type": "git",
