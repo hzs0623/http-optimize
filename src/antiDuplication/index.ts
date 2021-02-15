@@ -5,7 +5,7 @@ import { getUrl } from '../utils';
 import * as interFace from '../utils/interface';
 import LogHttp from '../httpConfig/logHttp';
 
-let logInfo;  // 打印控制台
+let logInfo: any;  // 打印控制台
 export default class httpRequet {
   list: any; // 请求队列
   http: any;// 请求体
@@ -25,9 +25,15 @@ export default class httpRequet {
    */
   getRequest(config: interFace.Config): any {
     logInfo.requestLogInfo(config); // 控制台打印
-
+    const { cancelRepeat = false } = config;
     const _that = this;
     return new Promise((resolve, reject) => {
+
+      if (!cancelRepeat) {
+        resolve(_that.http(config));
+        return;
+      }
+
       const currentUlr = getUrl(config); // 获取url地址
       if (_that.list.has(currentUlr)) {
         // 在请求队列里， 取消本次请求
@@ -55,7 +61,7 @@ export default class httpRequet {
   /**
    * 清空所有请求队列
    */
-  clearList(error?): void {
+  clearList(error?: any): void {
     this.list.clear();
   };
 }

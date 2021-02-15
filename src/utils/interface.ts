@@ -5,7 +5,8 @@ export interface Config {
   data?: object,
   params?: object,
   baseURL?: string
-  cache?: Object
+  cache?: Object,
+  cancelRepeat?: Boolean
 }
 
 // 响应

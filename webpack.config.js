@@ -27,16 +27,17 @@ module.exports = {
           loader: 'ts-loader'
         }
       ]
-    }]},
+    }]
+  },
   devtool: 'cheap-module-source-map',
   plugins: [
     uglifyJSPlugin,
   ],
   entry: ['babel-polyfill', './src/index.ts'],
   resolve:
-    {
-      extensions: ['.ts', '.js', '.json']
-    },
+  {
+    extensions: ['.ts', '.js', '.json']
+  },
   // 设置出口文件地址与文件名
   output: {
     path: path.resolve('dist'),

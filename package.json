@@ -1,12 +1,14 @@
 {
   "name": "http-optimize",
-  "version": "0.0.4",
-  "description": "",
-  "main": "index.ts",
-  "types": "index.d.ts",
+  "version": "0.0.5",
+  "description": "防止重复网络请求， 本地缓存",
+  "main": "./dist/index.js",
+  "keywords": [
+    "typescript"
+  ],
   "scripts": {
-    "build": "webpack --config webpack.config.js --progress --color",
-    "pre": "webpack"
+    "dev": "tsc",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
