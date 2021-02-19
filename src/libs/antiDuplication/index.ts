@@ -38,6 +38,7 @@ export default class httpRequet {
       if (this.list.has(currentUlr)) {
         // 在请求队列里， 取消本次请求
         reject('Duplicate request');
+        return;
       }
       // 1.没有请求， 添加到队列里
       this.list.add(currentUlr);
