@@ -1,4 +1,3 @@
 export * from './function';
-export * from './localStorage';
-export * from '../httpConfig/logHttp';
-
+export * from '../libs/localStorage';
+export * from '../libs/httpConfig/logHttp';

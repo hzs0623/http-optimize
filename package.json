@@ -1,6 +1,6 @@
 {
   "name": "http-optimize",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "防止重复网络请求， 本地缓存",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -1,15 +1,16 @@
 /**
  * 职责： 缓存请求数据
 */
-import * as interFace from '../utils/interface';
-import { getUrl, isObj, CACHEKEY } from '../utils';
-import { setItemLocalStorage, getItemLocalStorage } from '../utils/localStorage';
+import * as interFace from '../../utils/interface';
+import { getApiUrl, isObj } from '../../utils';
+import { setItemLocalStorage, getItemLocalStorage } from '../localStorage';
+import { CACHEKEY } from '../../constant';
 
 export default class CacheRequet {
   options: interFace.logOptions; // log配置参数项
 
   constructor(options?: interFace.logOptions) {
-    this.options = options || {}
+    this.options = options
   }
 
   getTime(time: interFace.Time): number {
@@ -18,11 +19,11 @@ export default class CacheRequet {
     return _t + Date.now();
   }
 
-  // 获取过期时间
+  // 获取存入的过期时间
   getExpirationTime(config: interFace.Config): number {
     const { cache } = config;
     if (isObj(cache)) {
-      return this.getTime(cache || {});
+      return this.getTime(cache);
     }
     if (typeof cache === 'boolean') {
       // 默认开启五分钟
@@ -31,19 +32,26 @@ export default class CacheRequet {
     return Date.now(); // 存入当前时间
   }
 
+  /**
+   * 存入数据
+  */
   setStorageData(data: object, config: interFace.Config): void {
-    const urlKey = getUrl(config); // 获取url地址作为每一个key
-    // 1.先取出所有的数据 然后在把当前的值塞入进去
-    const mapData: object = getItemLocalStorage(CACHEKEY); // 本地所有数据
-    if (!mapData) {
-      const params = Object.create(null);
+    const urlKey = getApiUrl(config); // 获取url地址作为每一个key
+
+    const localData = getItemLocalStorage(CACHEKEY); // 取出本地所有数据
+
+    if (!localData) {
+      // 首次存入
+      const params = {};
       params[urlKey] = data;
-      setItemLocalStorage(CACHEKEY, params); // 存入本地
+      setItemLocalStorage(CACHEKEY, params);
       return;
     }
 
-    mapData[urlKey] = data; // 赋值给当前对象
-    setItemLocalStorage(CACHEKEY, mapData); // 存入本地
+    const noExpirData = this.getNotExpirTimes(localData); //获取没有过期的数据
+
+    noExpirData[urlKey] = data; // 赋值给当前对象
+    setItemLocalStorage(CACHEKEY, noExpirData); // 存入本地
   }
 
   // 保存数据到本地
@@ -64,9 +72,9 @@ export default class CacheRequet {
 
     const { cache } = config;
     if (!cache) return; // 不要开启缓存 直接返回
-    const localData: object = getItemLocalStorage(CACHEKEY); //1. 获取本地所有数据
+    const localData = getItemLocalStorage(CACHEKEY); //1. 获取本地所有数据
     if (!localData) return false; //2. 没有数据直接返回
-    const urlKey = getUrl(config); // 获取url地址作为每一个key
+    const urlKey = getApiUrl(config); // 获取url地址作为每一个key
     // 3.判断当前数据是否过期
     const { data = {}, expirationTime = 0 } = localData[urlKey] || {};
 
@@ -80,5 +88,18 @@ export default class CacheRequet {
     }
     // 4.时间没有过期，返回本地数据
     return data
+  }
+
+  // 返回没有过期时间的数据
+  getNotExpirTimes(origin: object): object {
+    let data = {};
+    for (let key in origin) {
+      const item = origin[key] || {};
+      const { expirationTime = 0 } = item;
+      if (typeof expirationTime === 'number' && expirationTime > Date.now()) {
+        data[key] = origin[key]
+      }
+    }
+    return data;
   }
 }

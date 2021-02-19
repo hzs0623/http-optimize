@@ -4,12 +4,8 @@ export const isObj = (obj: any): any => Object.prototype.toString.call(obj) === 
 
 export const isArray = (arr: any): any => Object.prototype.toString.call(arr) === '[object Array]' && arr.length > 0;
 
-export const CACHEKEY = 'CACHE_DATA'; // 存入本地数据的key
-
-/**
- * @param {Object} obj 
- */
-export const getformatObjVal = (obj: any): string => {
+// 转换url地址 ==> a=1&b=2
+const getformatObjVal = (obj: any): string => {
   obj = typeof obj === 'string' ? JSON.parse(`${obj}`) : obj;
   let str: Array<string> = [];
   for (let p in obj) {
@@ -21,10 +17,10 @@ export const getformatObjVal = (obj: any): string => {
   return str.join('&');
 }
 
-export const getUrl = (config: interFace.Config): string => {
+// 存入地址
+export const getApiUrl = (config: interFace.Config): string => {
   // 暂时就在get请求、post请求的时候进行操作
   const { method = 'get', params = {}, url = '', baseURL = '' } = config;
   const urlVal: string = url.replace(baseURL, '');
   return `${urlVal}?${method === 'get' ? getformatObjVal(params) : 'post'}`;
 }
-

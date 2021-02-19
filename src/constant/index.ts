@@ -1,0 +1,1 @@
+export const CACHEKEY = 'HTTP_CACHE_DATA'; // 存入本地数据的key
