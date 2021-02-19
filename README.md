@@ -157,7 +157,7 @@ export default getRequest(axios); // 4. 导出请求
 
   > **h:**    小时
   >
-  > **m：**分钟
+  > **m**     分钟
 
   ```js
   import http from './axios'; 
@@ -207,4 +207,5 @@ export default getRequest(axios); // 4. 导出请求
 
 1. localStorage存入不进去，存入到sessionStorage里。 
 2. 每次写入数据前，清理过期时间的数据
+
 
