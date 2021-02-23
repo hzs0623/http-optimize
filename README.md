@@ -1,6 +1,6 @@
-## http-optimize 
+## http-optimize 🚀
 
-防止重复网络请求，前端本地缓存数据
+防止重复网络请求，前端本地缓存数据🏆
 
 ![issues](https://img.shields.io/github/issues/hzs0623/http-optimize) ![license](https://img.shields.io/github/license/hzs0623/http-optimize) ![twitter](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fhzs0623%2Fhttp-optimize)
 
@@ -32,7 +32,7 @@ $ yarn add http-optimize
 
 
 
-## 全局API
+## 全局API🥊
 
 #### getRequest
 
