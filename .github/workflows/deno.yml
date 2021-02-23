@@ -13,7 +13,4 @@
     registry-url: # optional
     # Optional scope for authenticating against scoped registries
     scope: # optional
-    # Used to pull node distributions from node-versions.  Since there's a default, this is typically not supplied by the user.
-    token: # optional, default is ${{ github.token }}
-    # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
     version: 0.0.8
